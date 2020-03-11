@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -44,12 +44,46 @@ function App() {
           React Core-Concept
          
         </a>
+        <Counter></Counter>
+
+        <Users></Users>
         <h1 style = {{backgroundColor: "lightSalmon", color: "black" }}>He is {person.name}. His Mobile # is {person.mobile_number}</h1>
         <p>I am a react Person.</p>
       </header>
     </div>
   );
 }
+function Counter() {
+  const [count, setCount] = useState(10);
+    
+  return (
+    <div>
+      <h1>Count : {count}</h1>
+      <button onClick={() => setCount(count - 1)}>Decrease</button>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  )
+}
+function Users() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+  fetch('https://jsonplaceholder.typicode.com/users')
+  .then(res => res.json())
+  .then(data => setUsers(data))
+  },[]);
+  return (
+    <div>
+      Dynamic List : {users.length}
+      <ul>
+        {
+        users.map(user=><li>{user.email}</li>)
+        }
+      </ul>
+    </div>
+  )
+}
+
 function Person(props) {
   const style = {
     backgroundColor: 'lightSalmon',
